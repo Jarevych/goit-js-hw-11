@@ -23,7 +23,7 @@ formEl.addEventListener('submit', searching)
 
 const markupRender = ({ data: { hits: photos } }) => {
     const markup = templateFunction(photos);
-    gallery.innerHTML = markup;
+    gallery.insertAdjacentHTML('beforeend', markup);
 
   };
 
@@ -38,8 +38,11 @@ function searching(event) {
 function fetchHandlePhoto(inputQuery, page) {
 
     fetchPhoto(inputQuery, page)
-      .then(({ data }) => {
-        console.log(data);
+    .then(({ data }) => {
+      if(!{data}) {
+        console.log('no images to show')
+      }
+      console.log(data);
         markupRender({data}); 
         page ++;
       })

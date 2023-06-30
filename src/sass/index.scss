@@ -1,9 +1,39 @@
 @import './common';
 @import './example';
-
-
+img{
+  width: 320px;
+  height: auto;
+  aspect-ratio: auto;
+}
+a{
+  text-decoration: none;
+}
 button{
     font-size: 20px;
     padding: 5px 10px;
+    border: 1px solid blue;
+    border-radius: 5px;
+    background-color: skyblue;
   }
+.gallery{
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+}  
+.photo-card{
+  width: 320px;
+}
+.info-item{
+  font-size: 14px;
+  line-height: 1.2;
+  text-decoration: none;
+  color: black;
+}
+.search-form{
+  display: flex;
+  justify-content: center;
+  margin: 20 auto;
+
+}
   
