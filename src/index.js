@@ -42,8 +42,13 @@ function fetchHandlePhoto(inputQuery, page) {
         console.log(data);
         markupRender({data}); 
         page ++;
-
       })
       .catch(console.warn);
   }
-  loadMoreBtnEl.addEventListener('click', fetchHandlePhoto)
+
+  const loadMore = () => {
+    page ++;
+    const inputQuery = inputEl.value
+      fetchHandlePhoto(inputQuery, page)
+  }
+    loadMoreBtnEl.addEventListener('click', loadMore)
