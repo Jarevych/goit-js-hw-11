@@ -1,9 +1,9 @@
 import axios from 'axios';
-const BASE_URL = 'https://pixabay.com/api';
+const BASE_URL = 'https://pixabay.com/api/';
 const API_KEY = '37960657-3cfa1dcb3808e6e9b644b5e90'
 
 export default async function fetchPhoto (inputQuery, page) {
-
+  
     return await axios.get(BASE_URL,  {
         params:{
         key: API_KEY,   
@@ -13,12 +13,15 @@ export default async function fetchPhoto (inputQuery, page) {
         safesearch:'true',
         page: page,
         per_page: 40, 
-}})
+}
+
+})
 .then(response => {
   return {
     ok: true,
     data: response.data,
   };
+
 })
 .catch(error => {
   return {

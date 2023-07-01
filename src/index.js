@@ -30,8 +30,11 @@ function searching(event) {
 function fetchHandlePhoto(inputQuery, page) {
     fetchPhoto(inputQuery, page)
     .then(({ data }) => {
+      const totalHits = data.totalHits;
+      Notiflix.Notify.success('Hooray! We found `${totalHits}` images.')
       if (!data || data.hits.length === 0) {
-        Notiflix.Notify.failure('Sorry, there are no images matching your search query. Please try again.')
+        Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
+        loadMoreBtnEl.style.display="none";
         return;
     }
         loadMoreBtnEl.style.display="block";
