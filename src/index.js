@@ -10,24 +10,27 @@ const formEl = document.getElementById('search-form');
 const inputEl = document.querySelector('input[name="searchQuery"]');
 let page = 0;
 let firstLoad = false;
-
+let totalHits = 'null';
+const onPage = 40; 
 loadMoreBtnEl.style.display="none";
 
 formEl.addEventListener('submit', searching)
 
-const markupRender = ({ data: { hits: photos } }) => {
-    const markup = templateFunction(photos);
-    gallery.insertAdjacentHTML('beforeend', markup);
-    lightbox.refresh();
-    const totalHits = data.totalHits;
+const markupRender = ({ data }) => {
+  const photos = data.hits;
+  const markup = templateFunction(photos);
+  gallery.insertAdjacentHTML('beforeend', markup);
+  lightbox.refresh();
+  totalHits = data.totalHits;
+  if (firstLoad && page === 1) {
     if (!data || data.hits.length === 0) {
-      Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.")
-      loadMoreBtnEl.style.display="none";
+      Notiflix.Notify.failure("Sorry, there are no images matching your search query. Please try again.");
+      loadMoreBtnEl.style.display = "none";
       return;
+    }
+    Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`);
   }
-  Notiflix.Notify.success(`Hooray! We found ${totalHits} images.`)
-
-  };
+};
 
 function searching(event) {
     event.preventDefault();
@@ -37,21 +40,25 @@ function searching(event) {
     const inputQuery = inputEl.value;
     fetchHandlePhoto(inputQuery, page);
 }
-function fetchHandlePhoto(inputQuery, page) {
-    fetchPhoto(inputQuery, page)
-    .then(({ data }) => {
-      console.log(data)
-    
-    
-        loadMoreBtnEl.style.display="block";
-        markupRender({data}); 
-        page ++;
-      })
-      .catch(console.warn);
-    }
 
-  const loadMore = () => {
-    if(firstLoad) {
+async function fetchHandlePhoto(inputQuery, page) {
+  try {
+    const { data } = await fetchPhoto(inputQuery, page);
+    console.log(data);
+    loadMoreBtnEl.style.display = "block";
+    markupRender({ data });
+    page++;
+  } catch (error) {
+    console.warn(error);
+  }
+  if(page * onPage >= totalHits) {
+    Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
+    loadMoreBtnEl.style.display = "none";
+  }
+}
+
+const loadMore = () => {
+  if(firstLoad) {
     page ++;
     const inputQuery = inputEl.value
       fetchHandlePhoto(inputQuery, page)
@@ -65,16 +72,17 @@ function fetchHandlePhoto(inputQuery, page) {
       behavior: "smooth",
     });
   }
-    loadMoreBtnEl.addEventListener('click', loadMore)
 
-    const clearGallery = () => {
-      gallery.innerHTML = ''; 
-      loadMoreBtnEl.style.display="none";
-    };
+  loadMoreBtnEl.addEventListener('click', loadMore)
+
+const clearGallery = () => {
+  gallery.innerHTML = ''; 
+  loadMoreBtnEl.style.display="none";
+};
     
-    const lightbox = new SimpleLightbox('.gallery a', {
-      captionsData: "alt",
-      captionDelay: 250,
-      aptionPosition: "bottom",
-    });
+const lightbox = new SimpleLightbox('.gallery a', {
+  captionsData: "alt",
+  captionDelay: 250,
+  aptionPosition: "bottom",
+});
     
