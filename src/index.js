@@ -56,5 +56,6 @@ function fetchHandlePhoto(inputQuery, page) {
   
   const clearGallery = () => {
     gallery.innerHTML = ''; 
+    loadMoreBtnEl.style.display="none";
   };
 
