@@ -8,7 +8,7 @@ const formEl = document.getElementById('search-form');
 const inputEl = document.querySelector('input[name="searchQuery"]');
 const page = 0;
 
-const BASE_URL = 'https://pixabay.com/api';
+const BASE_URL = 'http://pixabay.com/api';
 const API_KEY = '37960657-3cfa1dcb3808e6e9b644b5e90'
 
 export default async function fetchPhoto (inputQuery, page) {
