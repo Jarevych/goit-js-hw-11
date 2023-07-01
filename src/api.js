@@ -13,7 +13,7 @@ const API_KEY = '37960657-3cfa1dcb3808e6e9b644b5e90'
 
 export default async function fetchPhoto (inputQuery, page) {
 
-    return axios.get(BASE_URL,  {
+    return await axios.get(BASE_URL,  {
         params:{
         key: '37960657-3cfa1dcb3808e6e9b644b5e90',   
         q: inputQuery,
