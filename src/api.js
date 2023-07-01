@@ -15,14 +15,14 @@ export default async function fetchPhoto (inputQuery, page) {
 
     return await axios.get(BASE_URL,  {
         params:{
-        key: '37960657-3cfa1dcb3808e6e9b644b5e90',   
+        key: API_KEY,   
         q: inputQuery,
         image_type:'photo',
         orientation:'horizontal',
         safesearch:'true',
         page: page,
 
-        per_page: 40, 
+        per_page: 100, 
 }})
 .then(response => {
   return {
@@ -35,6 +35,8 @@ export default async function fetchPhoto (inputQuery, page) {
     ok: false,
     error: error.message,
   };
+  console.warn('no photos more')
+
 });
 
 }

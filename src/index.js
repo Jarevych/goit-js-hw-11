@@ -46,7 +46,7 @@ function fetchHandlePhoto(inputQuery, page) {
       if(!{data}) {
         console.log('no images to show')
       }
-      console.log(data);
+
         loadMoreBtnEl.style.display="block";
 
         markupRender({data}); 
