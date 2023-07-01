@@ -4,6 +4,7 @@ import Notiflix from 'notiflix';
 import templateFunction from './template.hbs';
 import fetchPhoto from "./api.js";
 
+const searchBtn = document.getElementById('js-search-btn');
 const gallery = document.querySelector('.gallery');
 const loadMoreBtnEl = document.getElementById("js-more-btn");
 const formEl = document.getElementById('search-form');
@@ -14,7 +15,21 @@ let totalHits = 'null';
 const onPage = 40; 
 loadMoreBtnEl.style.display="none";
 
+searchBtn.disabled = true;
+
+inputEl.addEventListener('input', function() {
+  if (inputEl.value) {
+    searchBtn.disabled = false;
+  } else {
+    searchBtn.disabled = true;
+  }
+});
+
+
+
 formEl.addEventListener('submit', searching)
+
+
 
 const markupRender = ({ data }) => {
   const photos = data.hits;
@@ -51,7 +66,7 @@ async function fetchHandlePhoto(inputQuery, page) {
   } catch (error) {
     console.warn(error);
   }
-  if(page * onPage >= totalHits) {
+  if(page * onPage >= totalHits && null) {
     Notiflix.Notify.failure("We're sorry, but you've reached the end of search results.");
     loadMoreBtnEl.style.display = "none";
   }
@@ -67,7 +82,7 @@ const loadMore = () => {
       .querySelector(".gallery")
       .firstElementChild.getBoundingClientRect();
     
-    window.scrollBy({
+     window.scrollBy({
       top: cardHeight * 2,
       behavior: "smooth",
     });
